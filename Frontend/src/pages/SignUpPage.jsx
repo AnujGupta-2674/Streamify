@@ -115,7 +115,7 @@ const SignupPage = () => {
 
                 <div className='text-center mt-4'>
                   <p className='text-sm'>
-                    Already have an account? <Link href="/login" className='text-primary font-semibold'>Login</Link>
+                    Already have an account? <Link to="/login" className='text-primary font-semibold'>Login</Link>
                   </p>
                 </div>
               </div>
