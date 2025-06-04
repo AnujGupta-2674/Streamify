@@ -14,9 +14,8 @@ export const getRecommendedUsers = async (req, res) => {
             ]
         });
 
-        res.status(200).json({
-            recommendedUsers
-        });
+
+        res.status(200).json(recommendedUsers);
 
     } catch (error) {
         console.error("Error fetching recommended users:", error.message);
@@ -27,7 +26,7 @@ export const getRecommendedUsers = async (req, res) => {
 export const getMyFriends = async (req, res) => {
     try {
         const user = await User.findById(req.user._id).populate("friends", "-password -__v -createdAt -updatedAt")
-        
+
         res.status(200).json(user.friends);
 
     } catch (error) {
@@ -111,6 +110,8 @@ export const acceptFriendRequest = async (req, res) => {
             $addToSet: { friends: friendRequest.sender }
         });
 
+        res.status(200).json({ message: "Friend request accepted" });
+
     } catch (error) {
         console.error("Error accepting friend request:", error.message);
         res.status(500).json({ message: "Internal Server Error" });
@@ -123,7 +124,7 @@ export const getFriendRequests = async (req, res) => {
         const incomingReqs = await FriendRequest.find({ recipient: req.user._id, status: 'pending' }).populate('sender', '-password -__v -createdAt -updatedAt');
 
         //Mera request jisne accept kiya he
-        const acceptedReqs = await FriendRequest.find({ recipient: req.user._id, status: 'accepted' }).populate('recipient', "fullName profilePic");
+        const acceptedReqs = await FriendRequest.find({ sender: req.user._id, status: 'accepted' }).populate('recipient', "fullName profilePic");
 
         res.status(200).json({ incomingReqs, acceptedReqs });
     } catch (error) {
