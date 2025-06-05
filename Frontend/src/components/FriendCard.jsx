@@ -28,7 +28,7 @@ const FriendCard = ({ friend }) => {
                     Message
                 </Link>
             </div>
-        </div>
+        </div >
     );
 };
 export default FriendCard;
